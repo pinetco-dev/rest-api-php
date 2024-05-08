@@ -78,7 +78,7 @@ class MessageCollection extends ApiResource
     }
 
     /**
-     * @param int $total
+     * @param  int  $total
      */
     public function setTotal($total)
     {
@@ -94,7 +94,7 @@ class MessageCollection extends ApiResource
     }
 
     /**
-     * @param int $perPage
+     * @param  int  $perPage
      */
     public function setPerPage($perPage)
     {
@@ -110,7 +110,7 @@ class MessageCollection extends ApiResource
     }
 
     /**
-     * @param int $currentPage
+     * @param  int  $currentPage
      */
     public function setCurrentPage($currentPage)
     {
@@ -126,7 +126,7 @@ class MessageCollection extends ApiResource
     }
 
     /**
-     * @param int $lastPage
+     * @param  int  $lastPage
      */
     public function setLastPage($lastPage)
     {
@@ -142,7 +142,7 @@ class MessageCollection extends ApiResource
     }
 
     /**
-     * @param string $nextPageUrl
+     * @param  string  $nextPageUrl
      */
     public function setNextPageUrl($nextPageUrl)
     {
@@ -158,7 +158,7 @@ class MessageCollection extends ApiResource
     }
 
     /**
-     * @param string $prevPageUrl
+     * @param  string  $prevPageUrl
      */
     public function setPrevPageUrl($prevPageUrl)
     {
@@ -174,7 +174,7 @@ class MessageCollection extends ApiResource
     }
 
     /**
-     * @param int $from
+     * @param  int  $from
      */
     public function setFrom($from)
     {
@@ -190,7 +190,7 @@ class MessageCollection extends ApiResource
     }
 
     /**
-     * @param int $to
+     * @param  int  $to
      */
     public function setTo($to)
     {
@@ -206,7 +206,7 @@ class MessageCollection extends ApiResource
     }
 
     /**
-     * @param array $data
+     * @param  array  $data
      */
     public function setData($data)
     {

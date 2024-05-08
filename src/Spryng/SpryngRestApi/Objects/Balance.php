@@ -17,7 +17,7 @@ class Balance extends ApiResource
     }
 
     /**
-     * @param mixed $amount
+     * @param  mixed  $amount
      */
     public function setAmount($amount)
     {

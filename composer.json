@@ -23,5 +23,12 @@
         "psr-4": {
             "Spryng\\SpryngRestApi\\": "src/Spryng/SpryngRestApi"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Spryng\\SpryngRestApi\\SpryngServiceProvider"
+            ]
+        }
     }
 }

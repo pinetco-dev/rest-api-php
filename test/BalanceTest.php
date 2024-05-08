@@ -6,12 +6,14 @@ use PHPUnit\Framework\TestCase;
 use Spryng\SpryngRestApi\Spryng;
 
 date_default_timezone_set('Europe/Amsterdam');
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 class BalanceTest extends TestCase
 {
     protected $API_KEY;
+
     protected $RECIPIENT = [''];
+
     protected $messageId = '';
 
     /**
@@ -22,7 +24,7 @@ class BalanceTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->API_KEY = file_get_contents(__DIR__ . '/../.apikey');
+        $this->API_KEY = file_get_contents(__DIR__.'/../.apikey');
 
         $this->instance = new Spryng($this->API_KEY);
     }

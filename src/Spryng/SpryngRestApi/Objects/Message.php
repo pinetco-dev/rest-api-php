@@ -5,19 +5,30 @@ namespace Spryng\SpryngRestApi\Objects;
 use Spryng\SpryngRestApi\ApiResource;
 
 class Message extends ApiResource
-{    
+{
     public $id;
+
     public $encoding = 'plain';
+
     public $body;
+
     public $reference;
+
     public $credits;
+
     public $scheduledAt;
+
     public $createdAt;
+
     public $updatedAt;
-    public $links = array();
+
+    public $links = [];
+
     public $route = 'business';
+
     public $originator;
-    public $recipients = array();
+
+    public $recipients = [];
 
     /**
      * @return mixed
@@ -28,7 +39,7 @@ class Message extends ApiResource
     }
 
     /**
-     * @param mixed $id
+     * @param  mixed  $id
      */
     public function setId($id)
     {
@@ -44,7 +55,7 @@ class Message extends ApiResource
     }
 
     /**
-     * @param string $encoding
+     * @param  string  $encoding
      */
     public function setEncoding($encoding)
     {
@@ -60,7 +71,7 @@ class Message extends ApiResource
     }
 
     /**
-     * @param mixed $body
+     * @param  mixed  $body
      */
     public function setBody($body)
     {
@@ -76,7 +87,7 @@ class Message extends ApiResource
     }
 
     /**
-     * @param mixed $reference
+     * @param  mixed  $reference
      */
     public function setReference($reference)
     {
@@ -92,7 +103,7 @@ class Message extends ApiResource
     }
 
     /**
-     * @param mixed $credits
+     * @param  mixed  $credits
      */
     public function setCredits($credits)
     {
@@ -108,7 +119,7 @@ class Message extends ApiResource
     }
 
     /**
-     * @param mixed $scheduledAt
+     * @param  mixed  $scheduledAt
      */
     public function setScheduledAt($scheduledAt)
     {
@@ -124,7 +135,7 @@ class Message extends ApiResource
     }
 
     /**
-     * @param mixed $createdAt
+     * @param  mixed  $createdAt
      */
     public function setCreatedAt($createdAt)
     {
@@ -140,7 +151,7 @@ class Message extends ApiResource
     }
 
     /**
-     * @param mixed $updatedAt
+     * @param  mixed  $updatedAt
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -156,7 +167,7 @@ class Message extends ApiResource
     }
 
     /**
-     * @param array $links
+     * @param  array  $links
      */
     public function setLinks($links)
     {
@@ -172,7 +183,7 @@ class Message extends ApiResource
     }
 
     /**
-     * @param string $route
+     * @param  string  $route
      */
     public function setRoute($route)
     {
@@ -188,7 +199,7 @@ class Message extends ApiResource
     }
 
     /**
-     * @param mixed $originator
+     * @param  mixed  $originator
      */
     public function setOriginator($originator)
     {
@@ -204,7 +215,7 @@ class Message extends ApiResource
     }
 
     /**
-     * @param array $recipients
+     * @param  array  $recipients
      */
     public function setRecipients($recipients)
     {

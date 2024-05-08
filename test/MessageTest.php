@@ -8,12 +8,14 @@ use Spryng\SpryngRestApi\Objects\Message;
 use Spryng\SpryngRestApi\Spryng;
 
 date_default_timezone_set('Europe/Amsterdam');
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 class MessageTest extends TestCase
 {
     protected $API_KEY;
+
     protected $RECIPIENT = [''];
+
     protected $messageId = '90797ce7-a20d-434a-9c00-553e31d9ce03';
 
     /**
@@ -24,7 +26,7 @@ class MessageTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->API_KEY = file_get_contents(__DIR__ . '/../.apikey');
+        $this->API_KEY = file_get_contents(__DIR__.'/../.apikey');
 
         $this->instance = new Spryng($this->API_KEY);
     }
@@ -89,10 +91,8 @@ class MessageTest extends TestCase
         $this->assertTrue($response->wasSuccessful());
         $obj = $response->toObject();
         // Check if the response is correctly parsed to objects for all the messages
-        if (count($obj->getData()) > 0)
-        {
-            foreach ($obj->getData() as $message)
-            {
+        if (count($obj->getData()) > 0) {
+            foreach ($obj->getData() as $message) {
                 $this->assertNotNull($message->getId());
             }
         }

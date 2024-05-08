@@ -2,9 +2,8 @@
 
 namespace Spryng\SpryngRestApi\Resources;
 
-use Spryng\SpryngRestApi\ApiResource;
-use Spryng\SpryngRestApi\Exceptions\ValidationException;
 use Spryng\SpryngRestApi\BaseClient;
+use Spryng\SpryngRestApi\Exceptions\ValidationException;
 use Spryng\SpryngRestApi\Http\HttpClient;
 use Spryng\SpryngRestApi\Http\Request;
 use Spryng\SpryngRestApi\Http\Response;
@@ -15,7 +14,7 @@ class MessageClient extends BaseClient
 {
     /**
      * An array of the existing filters for the list endpoint
-     * 
+     *
      * @var string[]
      */
     private static $listFilters = [
@@ -26,7 +25,7 @@ class MessageClient extends BaseClient
         'created_until',
         'scheduled_from',
         'scheduled_until',
-        'status'
+        'status',
     ];
 
     public function create(Message $message)
@@ -54,9 +53,9 @@ class MessageClient extends BaseClient
     /**
      * List existing message instances. Use $filters to filter the results
      *
-     * @param string[] $filters Filters to limit the results
-     *
+     * @param  string[]  $filters  Filters to limit the results
      * @return Response|null
+     *
      * @throws ValidationException
      */
     public function list($filters = [])
@@ -71,7 +70,7 @@ class MessageClient extends BaseClient
         // Add the filters as query string parameters
         foreach ($filters as $filter => $value) {
             // check if this filter actually exists
-            if (!in_array($filter, self::$listFilters)) {
+            if (! in_array($filter, self::$listFilters)) {
                 throw new ValidationException(sprintf('%s is not a valid filter', $filter));
             }
 
@@ -80,20 +79,19 @@ class MessageClient extends BaseClient
 
         return $req->send();
     }
-    
+
     /**
      * Cancel a message scheduled in the future.
      *
-     * @param string|Message $id The ID of the message to be canceled
-     * 
+     * @param  string|Message  $id  The ID of the message to be canceled
      * @return Response
      */
     public function cancel($id)
     {
-        if ($id instanceof Message) // also allow message instances
-        {
+        if ($id instanceof Message) { // also allow message instances
             $id = $id->getId();
         }
+
         return (new Request(
             $this->api->getBaseUrl(),
             HttpClient::METHOD_POST,
@@ -114,8 +112,7 @@ class MessageClient extends BaseClient
     /**
      * Show the message with $id
      *
-     * @param $id The ID of the message to retrieve
-     * 
+     * @param  $id  The ID of the message to retrieve
      * @return Spryng\SpryngRestApi\Http\Response
      */
     public function show($id)
@@ -132,7 +129,7 @@ class MessageClient extends BaseClient
     /**
      * @deprecated 1.10 Use list()
      */
-    public function showAll($page = 1, $limit = 15, $filters = array())
+    public function showAll($page = 1, $limit = 15, $filters = [])
     {
         return $this->list($filters);
     }

@@ -8,28 +8,21 @@ use Spryng\SpryngRestApi\Resources\MessageClient;
 
 class Spryng
 {
-    const VERSION = '1.0.0';
+    public const VERSION = '1.0.0';
 
-    protected $baseUrl = 'https://rest.spryngsms.com/v1';
+    private string $baseUrl = 'https://rest.spryngsms.com/v1';
 
-    /**
-     * @var MessageClient
-     */
-    public $message;
+    public MessageClient $message;
 
-    /**
-     * @var BalanceClient
-     */
-    public $balance;
+    public BalanceClient $balance;
 
-    public static $http;
+    public static HttpClient $http;
 
-    protected $apiKey;
+    protected string $apiKey = '';
 
-    public function __construct($apiKey = null)
+    public function __construct(?string $apiKey = '')
     {
-        if ($apiKey !== null)
-        {
+        if ($apiKey !== null) {
             $this->setApiKey($apiKey);
         }
 
@@ -48,27 +41,22 @@ class Spryng
     }
 
     /**
-     * @param mixed $apiKey
+     * @param  mixed  $apiKey
      */
-    public function setApiKey($apiKey)
+    public function setApiKey($apiKey): void
     {
         $this->apiKey = $apiKey;
     }
 
-    /**
-     * @return string
-     */
-    public function getBaseUrl()
+    public function getBaseUrl(): string
     {
         return $this->baseUrl;
     }
 
     /**
      * Get the current version of the library
-     *
-     * @return string
      */
-    public function getVersion()
+    public function getVersion(): string
     {
         return self::VERSION;
     }

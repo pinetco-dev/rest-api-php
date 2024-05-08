@@ -35,8 +35,6 @@ class Response
     /**
      * Constructs a Response instance straight from the raw response of a curl instance, and the instance itself.
      *
-     * @param $ch
-     * @param $rawResponse
      * @return Response
      */
     public static function constructFromCurlResponse($ch, $rawResponse)
@@ -57,7 +55,7 @@ class Response
      */
     public function wasSuccessful()
     {
-        return ($this->getResponseCode() >= 200 && $this->getResponseCode() < 300);
+        return $this->getResponseCode() >= 200 && $this->getResponseCode() < 300;
     }
 
     /**
@@ -67,11 +65,11 @@ class Response
      */
     public function serverError()
     {
-        return ($this->getResponseCode() >= 500 && $this->getResponseCode() <= 599);
+        return $this->getResponseCode() >= 500 && $this->getResponseCode() <= 599;
     }
 
     /**
-     * @param mixed $curlInstance
+     * @param  mixed  $curlInstance
      */
     public function setCurlInstance($curlInstance)
     {
@@ -87,7 +85,7 @@ class Response
     }
 
     /**
-     * @param mixed $rawResponse
+     * @param  mixed  $rawResponse
      */
     public function setRawResponse($rawResponse)
     {
@@ -103,7 +101,7 @@ class Response
     }
 
     /**
-     * @param mixed $rawBody
+     * @param  mixed  $rawBody
      */
     public function setRawBody($rawBody)
     {
@@ -121,7 +119,7 @@ class Response
     }
 
     /**
-     * @param mixed $responseCode
+     * @param  mixed  $responseCode
      */
     public function setResponseCode($responseCode)
     {
@@ -137,8 +135,7 @@ class Response
     {
         // Wanted to keep this as simple as possible as there are only 2 objects in the API. Just check if the original
         // url contains 'messages' to know which object to serialize to
-        if (false !== strpos(curl_getinfo($this->curlInstance, CURLINFO_EFFECTIVE_URL), 'messages'))
-        {
+        if (strpos(curl_getinfo($this->curlInstance, CURLINFO_EFFECTIVE_URL), 'messages') !== false) {
             return ApiResource::deserializeFromRaw($this->getRawBody(), Message::class);
         }
 

@@ -4,10 +4,13 @@ namespace Spryng\SpryngRestApi\Http;
 
 class HttpClient implements HttpClientInterface
 {
-    const METHOD_GET    = 'GET';
-    const METHOD_POST   = 'POST';
-    const METHOD_PATCH  = 'PATCH';
-    const METHOD_DELETE = 'DELETE';
+    public const METHOD_GET = 'GET';
+
+    public const METHOD_POST = 'POST';
+
+    public const METHOD_PATCH = 'PATCH';
+
+    public const METHOD_DELETE = 'DELETE';
 
     /**
      * @var false|resource
@@ -22,19 +25,18 @@ class HttpClient implements HttpClientInterface
     /**
      * @var Response|null
      */
-    protected $lastResponse;
+    protected ?Response $lastResponse;
 
-    public function __construct(Request $req = null)
+    public function __construct(?Request $req = null)
     {
         $this->ch = curl_init();
 
-        if ($req !== null)
-        {
+        if ($req !== null) {
             $this->setActiveRequest($req);
         }
     }
 
-    public function send(Request $req = null)
+    public function send(?Request $req = null)
     {
         if ($req === null) {
             if ($this->activeRequest === null) {
@@ -48,8 +50,7 @@ class HttpClient implements HttpClientInterface
 
         // Don't print the result
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
-        switch ($this->activeRequest->getHttpMethod())
-        {
+        switch ($this->activeRequest->getHttpMethod()) {
             case self::METHOD_GET:
             case self::METHOD_DELETE:
                 $this->lastResponse = $this->executeNoData();
@@ -75,6 +76,7 @@ class HttpClient implements HttpClientInterface
         $this->applyHeaders();
 
         $rawResponse = curl_exec($this->ch);
+
         return Response::constructFromCurlResponse($this->ch, $rawResponse);
     }
 
@@ -90,13 +92,13 @@ class HttpClient implements HttpClientInterface
         $this->applyHeaders();
 
         $rawResponse = curl_exec($this->ch);
+
         return Response::constructFromCurlResponse($this->ch, $rawResponse);
     }
 
     /**
      * Sets the current request to be activated to $req
      *
-     * @param Request $req
      * @return HttpClientInterface
      */
     public function setActiveRequest(Request $req)
@@ -125,20 +127,19 @@ class HttpClient implements HttpClientInterface
     private function applyHeaders()
     {
         // Convert associative array of headers with key and value to single string headers
-        $headers = array();
+        $headers = [];
         foreach ($this->activeRequest->getHeaders() as $key => $value) {
             // Apply the user agent header using the CURLOPT_USERAGENT option
-            if (strtolower($key) === 'user-agent')
-            {
+            if (strtolower($key) === 'user-agent') {
                 curl_setopt($this->ch, CURLOPT_USERAGENT, $value);
+
                 continue;
             }
             $headers[] = sprintf('%s: %s', $key, $value);
         }
 
         // Set converted headers on the curl instance
-        if (count($headers) > 0)
-        {
+        if (count($headers) > 0) {
             curl_setopt($this->ch, CURLOPT_HEADER, true);
             curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);
         }
@@ -159,8 +160,7 @@ class HttpClient implements HttpClientInterface
         $url = sprintf('%s%s', $this->activeRequest->getBaseUrl(), $this->activeRequest->getMethod());
 
         // If any query string parameters are set, format them and add to the URL.
-        if (count($this->activeRequest->getQueryStringParameters()) > 0)
-        {
+        if (count($this->activeRequest->getQueryStringParameters()) > 0) {
             $url .= sprintf('?%s', http_build_query($this->activeRequest->getQueryStringParameters()));
         }
 

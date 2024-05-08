@@ -2,39 +2,38 @@
 
 namespace Spryng\SpryngRestApi\Http;
 
-use Spryng\SpryngRestApi\Spryng;
-
 class Request
 {
     protected $baseUrl;
+
     protected $httpMethod;
+
     protected $method;
-    protected $headers = array();
-    protected $queryStringParameters = array();
-    protected $parameters = array();
+
+    protected $headers = [];
+
+    protected $queryStringParameters = [];
+
+    protected $parameters = [];
+
     protected $client;
 
     /**
      * Request constructor.
-     * @param $baseUrl
-     * @param $httpMethod
-     * @param $method
-     * @param array $headers
-     * @param array $queryStringParameters
      */
-    public function __construct($baseUrl, $httpMethod, $method, array $headers = array(), array $queryStringParameters = array())
+    public function __construct($baseUrl, $httpMethod, $method, array $headers = [], array $queryStringParameters = [])
     {
-        $this->baseUrl                  = $baseUrl;
-        $this->httpMethod               = $httpMethod;
-        $this->method                   = $method;
-        $this->headers                  = $headers;
-        $this->queryStringParameters    = $queryStringParameters;
-        $this->client                   = new HttpClient($this);
+        $this->baseUrl = $baseUrl;
+        $this->httpMethod = $httpMethod;
+        $this->method = $method;
+        $this->headers = $headers;
+        $this->queryStringParameters = $queryStringParameters;
+        $this->client = new HttpClient($this);
     }
 
     public function withBearerToken($token)
     {
-        $this->addheader("Authorization", sprintf("Bearer %s", $token));
+        $this->addheader('Authorization', sprintf('Bearer %s', $token));
 
         return $this;
     }
@@ -46,8 +45,7 @@ class Request
 
     public function addParameter($k, $v)
     {
-        if (!empty($v))
-        {
+        if (! empty($v)) {
             $this->parameters[$k] = $v;
         }
 
@@ -56,8 +54,7 @@ class Request
 
     public function addQueryStringParameter($k, $v)
     {
-        if (!empty($v))
-        {
+        if (! empty($v)) {
             $this->queryStringParameters[$k] = $v;
         }
 
@@ -67,8 +64,8 @@ class Request
     /**
      * Adds a header to the current header array to be included in the request
      *
-     * @param string $name
-     * @param string|int $value
+     * @param  string  $name
+     * @param  string|int  $value
      * @return Request
      */
     public function addheader($name, $value)

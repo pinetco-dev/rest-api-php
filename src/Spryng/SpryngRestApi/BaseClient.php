@@ -20,7 +20,7 @@ class BaseClient
     }
 
     /**
-     * @param mixed $api
+     * @param  mixed  $api
      */
     public function setApi($api)
     {

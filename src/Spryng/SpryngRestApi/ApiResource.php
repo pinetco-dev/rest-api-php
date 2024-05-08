@@ -10,8 +10,7 @@ class ApiResource
 
     public function __construct($raw = null)
     {
-        if ($raw !== null)
-        {
+        if ($raw !== null) {
             $this->setRaw($raw);
         }
     }
@@ -25,7 +24,7 @@ class ApiResource
     }
 
     /**
-     * @param mixed $raw
+     * @param  mixed  $raw
      */
     public function setRaw($raw)
     {
@@ -33,8 +32,8 @@ class ApiResource
     }
 
     /**
-     * @param $raw string|array
-     * @param $class string
+     * @param  $raw  string|array
+     * @param  $class  string
      * @return ApiResource|array
      */
     public static function deserializeFromRaw($raw, $class)
@@ -43,8 +42,7 @@ class ApiResource
         $json = json_decode($raw, true);
 
         // If the data parameter is set, it means that this is a collection of message objects
-        if (isset($json['data']))
-        {
+        if (isset($json['data'])) {
             $collection = new MessageCollection();
             $collection->setTotal($json['total']);
             $collection->setPerPage($json['per_page']);
@@ -55,9 +53,8 @@ class ApiResource
             $collection->setFrom($json['from']);
             $collection->setTo($json['to']);
 
-            $messages = array();
-            foreach ($json['data'] as $rawMessage)
-            {
+            $messages = [];
+            foreach ($json['data'] as $rawMessage) {
                 // Call the function recursively to deserialize every message. Serialize back to Json to avoid array/object
                 // conversion issues
                 $messages[] = self::deserializeFromRaw(json_encode($rawMessage), $class);
@@ -69,8 +66,7 @@ class ApiResource
 
         // If we've come here, we're deserializing a single message or balance response
         $obj = new $class;
-        foreach ($json as $key => $val)
-        {
+        foreach ($json as $key => $val) {
             // Remove underscores from the key that may be present in the response
             $key = str_replace('_', '', $key);
 
@@ -78,8 +74,7 @@ class ApiResource
             $name = 'set'.ucfirst($key);
 
             // If there is such a set method, call it
-            if (method_exists($class, $name))
-            {
+            if (method_exists($class, $name)) {
                 $obj->$name($val);
             }
         }
