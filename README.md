@@ -104,7 +104,6 @@ if ($response->wasSuccessful())
 		);
 	}
 }
-
 ```
 
 ### Getting your balance
@@ -119,4 +118,102 @@ $spryng = new Spryng($apiKey);
 
 $balance = $spryng->balance->get()->toObject();
 echo "You have " . $balance->getAmount() . " credits remaining\n";
+```
+
+## Setting up your Spryng account in laravel
+
+Add the environment variables to your `config/services.php`:
+
+```php
+// config/services.php
+...
+'spryng' => [
+        'access_key' => env('SPRYNG_ACCESS_KEY', ''),
+        'originator' => env('SPRYNG_ORIGINATOR', ''),
+        'recipients' => env('SPRYNG_RECIPIENTS', []),
+    ],
+...
+```
+
+Add your Messagebird Access Key, Default originator (name or number of sender), and default recipients to your `.env`:
+
+```php
+// .env
+...
+SPRYNG_ACCESS_KEY=
+SPRYNG_ORIGINATOR=
+SPRYNG_RECIPIENTS=
+],
+...
+```
+
+You can create a 'SpryngChannel.php' in 'App/Channels'
+
+```php
+use Illuminate\Notifications\Notification;
+use Spryng\SpryngRestApi\Exceptions\ValidationException;
+use Spryng\SpryngRestApi\SpryngClient;
+
+class SpryngChannel
+{
+    private SpryngClient $client;
+
+    public function __construct(SpryngClient $client)
+    {
+        $this->client = $client;
+    }
+
+    public function send($notifiable, Notification $notification)
+    {
+        $config = config('services.spryng');
+
+        $spryngMessage = $notification->toSpryng($notifiable);
+
+        if (is_string($spryngMessage)) {
+            $spryngMessageObj = new \Spryng\SpryngRestApi\Objects\Message();
+            $spryngMessageObj->setBody($spryngMessage);
+            $spryngMessage = $spryngMessageObj;
+        }
+
+        $spryngMessage->setOriginator($config['originator']);
+
+        $data = [];
+
+        if ($to = $notifiable->routeNotificationFor('spryng')) {
+            $spryngMessage->setRecipients([$to]);
+        }
+
+        try {
+            $data = $this->client->send($spryngMessage);
+        } catch (ValidationException $e) {
+            logger()->error($e->getMessage());
+        }
+
+        return $data;
+    }
+}
+```
+
+Now you can use the channel in your `via()` method inside the notification:
+
+``` php
+use App\Channels\SpryngChannel;
+use Spryng\SpryngRestApi\Objects\Message;
+use Illuminate\Notifications\Notification;
+
+class VpsServerOrdered extends Notification
+{
+    public function via($notifiable)
+    {
+        return [SpryngChannel::class];
+    }
+
+    public function toSpryng($notifiable): Message
+    {
+        $message = new Message();
+        $message->setBody('This is message');
+
+        return $message;
+    }
+}
 ```
