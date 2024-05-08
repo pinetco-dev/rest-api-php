@@ -135,7 +135,7 @@ Add the environment variables to your `config/services.php`:
 ...
 ```
 
-Add your Messagebird Access Key, Default originator (name or number of sender), and default recipients to your `.env`:
+Add your Spryng Access Key, Default originator (name or number of sender), and default recipients to your `.env`:
 
 ```php
 // .env
